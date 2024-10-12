@@ -38,6 +38,7 @@ def job_function():
 
 # Schedule the main function to run every 4 hours
 if __name__ == "__main__":
+    print("I am ALIVEEEEE")
     scheduler = BackgroundScheduler()
     scheduler.add_job(job_function, 'interval', minutes=1)
     scheduler.start()

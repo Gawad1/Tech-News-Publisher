@@ -44,12 +44,12 @@ def approve_posts():
     for post in posts:
         if not post['posted']:  # Only modify unposted posts
             if post['title'] in approved_posts:
-                post['approved'] = True  # Set approved to True if checked
+                post['approved'] = True  
             else:
-                post['approved'] = False  # Set approved to False if not checked
+                post['approved'] = False 
     # Save the updated posts
     save_posts(posts)
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
