@@ -1,0 +1,22 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag technews:latest
+    - name: login
+      run: docker login -u gawad1 -p ${{secrets.DOCKER_HUB_TOKEN}}
+    - name: Tag the Docker image
+      run: docker tag technews:latest gawad1/technews:latest
+    - name: push the Docker image
+      run: docker push gawad1/technews:latest
