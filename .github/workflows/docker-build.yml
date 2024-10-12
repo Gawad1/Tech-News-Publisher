@@ -1,28 +1,22 @@
-name: Docker Build and Push
+name: Docker Image CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
+
   build:
+
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check out code
-      uses: actions/checkout@v2
-
-    - name: Log in to Docker Hub
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKER_HUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-
-    - name: Build Docker image
-      run: |
-        docker build -t gawad1/technews:latest .
-
-    - name: Push Docker image
-      run: |
-        docker push gawad1/technews:latest
+    - uses: actions/checkout@v4
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag technews:latest
+    - name: login
+      run: docker login -u gawad1 -p ${{secrets.DOCKER_HUB_TOKEN}}
+    - name: Tag the Docker image
+      run: docker tag technews:latest gawad1/technews:latest
+    - name: push the Docker image
+      run: docker push gawad1/technews:latest
