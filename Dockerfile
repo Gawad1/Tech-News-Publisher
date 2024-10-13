@@ -14,11 +14,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 ENV HF_HOME=/app/huggingface_cache
 
 # Pre-download Hugging Face models and tokenizer during the build phase
-RUN python -c "\
-from transformers import BartTokenizer, pipeline; \
-tokenizer = BartTokenizer.from_pretrained('facebook/bart-large'); \
-model = pipeline('summarization', model='facebook/bart-large'); \
-"
+COPY download_models.py .  # Add this script to download models explicitly
+RUN python download_models.py
 
 # Copy the rest of the application code
 COPY . .

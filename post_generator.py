@@ -4,6 +4,9 @@ from transformers import pipeline, BartTokenizer
 from keybert import KeyBERT
 import random
 
+
+os.environ["HF_HOME"] = "/app/huggingface_cache"
+
 # Initialize models
 kw_model = KeyBERT()
 tokenizer = BartTokenizer.from_pretrained("facebook/bart-large-cnn")
