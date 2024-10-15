@@ -1,17 +1,19 @@
 import os
 from apscheduler.schedulers.background import BackgroundScheduler
 import time
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 from scraper import main as scrape_main
 from post_generator import main as generate_posts_main
 from post import main as post_main
 from filelock import FileLock
 
 # Load environment variables from .env file
-load_dotenv()
-
-# Get the Facebook Page Access Token from the environment variable
-PAGE_ACCESS_TOKEN = os.getenv("PAGE_ACCESS_TOKEN")
+PAGE_ACCESS_TOKEN = None
+try:
+    with open('/run/secrets/facebook_token', 'r') as f:
+        PAGE_ACCESS_TOKEN = f.read().strip()
+except FileNotFoundError:
+    print("Secret not found!")
 POSTS_JSON_PATH = 'posts/generated_posts.json'
 LOCK_PATH = POSTS_JSON_PATH + '.lock'  # Lock file path
 
