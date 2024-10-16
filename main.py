@@ -1,7 +1,5 @@
-import os
 from apscheduler.schedulers.background import BackgroundScheduler
 import time
-# from dotenv import load_dotenv
 from scraper import main as scrape_main
 from post_generator import main as generate_posts_main
 from post import main as post_main
@@ -10,10 +8,11 @@ from filelock import FileLock
 # Load environment variables from .env file
 PAGE_ACCESS_TOKEN = None
 try:
-    with open('/run/secrets/facebook_token', 'r') as f:
+    with open('/run/secrets/facebook_token.txt', 'r') as f:
         PAGE_ACCESS_TOKEN = f.read().strip()
-except FileNotFoundError:
-    print("Secret not found!")
+except Exception as e:
+    print(f"Error: {e}")
+    
 POSTS_JSON_PATH = 'posts/generated_posts.json'
 LOCK_PATH = POSTS_JSON_PATH + '.lock'  # Lock file path
 
@@ -31,7 +30,7 @@ def main():
         print("Posting to Facebook...")
         post_main(PAGE_ACCESS_TOKEN)  # Call the main function from post
     else:
-        print("No Facebook Page Access Token found. Please check your .env file.")
+        print("No Facebook Page Access Token found.")
 
 def job_function():
     print("Job is running...")
@@ -40,9 +39,9 @@ def job_function():
 
 # Schedule the main function to run every 4 hours
 if __name__ == "__main__":
-    print("I am ALIVEEEEE")
+    print("I am ALIVEEEEE main")
     scheduler = BackgroundScheduler()
-    scheduler.add_job(job_function, 'interval', minutes=1)
+    scheduler.add_job(job_function, 'interval', seconds=10)
     scheduler.start()
 
     try:
@@ -51,3 +50,4 @@ if __name__ == "__main__":
             time.sleep(1)
     except (KeyboardInterrupt, SystemExit):
         scheduler.shutdown()
+   

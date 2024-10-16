@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 # Path to the generated_posts.json file and the image folder
 POSTS_JSON_PATH = 'posts/generated_posts.json'
-IMAGE_FOLDER = 'article_images'  
+IMAGE_FOLDER = 'static/article_images' 
 LOCK_PATH = POSTS_JSON_PATH + '.lock'  # Lock file path
 
 # Function to load posts from the JSON file with locking

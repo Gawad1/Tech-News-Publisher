@@ -135,10 +135,11 @@
                     <tr>
                         <td>
                             {% if post.image_path %}
-                                <img src="/static/{{ post.image_path.split('/')[-1] }}" alt="Image for post">
+                            <img src="{{ url_for('serve_image', filename=post.image_path.split('/')[-1]) }}" alt="Image for post">
                             {% else %}
-                                <p>Image not available</p>
+                            <p>Image not available</p>
                             {% endif %}
+                        
                         </td>
                         <td class="post-content">{{ post.post_content }}</td>
                         <td>

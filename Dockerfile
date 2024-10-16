@@ -10,13 +10,6 @@ COPY requirements.txt .
 # Install dependencies from requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Set environment variable for Hugging Face cache (optional, but recommended)
-ENV HF_HOME=/app/huggingface_cache
-
-# Pre-download Hugging Face models and tokenizer during the build phase
-COPY download_models.py .
-RUN python download_models.py
-
 # Copy the rest of the application code
 COPY . .
 
