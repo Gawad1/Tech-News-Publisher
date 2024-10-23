@@ -2,6 +2,7 @@ import json
 import facebook
 import os
 
+
 def post_to_facebook_page(message, photo_path, page_access_token):
     """Post message and photo to the Facebook page using the Graph API."""
     graph = facebook.GraphAPI(page_access_token)
